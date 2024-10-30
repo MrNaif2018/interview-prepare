@@ -10,7 +10,7 @@ import android.view.View
 import android.view.View.OnTouchListener
 import kotlin.math.abs
 
-open class OnSwipeTouchListener(view: View, ctx: Context) : OnTouchListener {
+open class OnSwipeTouchListener(ctx: Context) : OnTouchListener {
 
     private val gestureDetector: GestureDetector
 
@@ -21,25 +21,21 @@ open class OnSwipeTouchListener(view: View, ctx: Context) : OnTouchListener {
     }
 
     init {
-        gestureDetector = GestureDetector(ctx, GestureListener(view))
+        gestureDetector = GestureDetector(ctx, GestureListener())
     }
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onTouch(v: View, event: MotionEvent): Boolean {
-        v.parent.requestDisallowInterceptTouchEvent(true)
         return gestureDetector.onTouchEvent(event)
     }
 
-    private inner class GestureListener(private val view: View) : SimpleOnGestureListener() {
+    private inner class GestureListener : SimpleOnGestureListener() {
 
 
         override fun onDown(e: MotionEvent): Boolean {
             return false
         }
 
-        fun turnOffPropagation() {
-            view.parent.requestDisallowInterceptTouchEvent(true)
-        }
 
         override fun onFling(
             e1: MotionEvent?,
@@ -60,18 +56,17 @@ open class OnSwipeTouchListener(view: View, ctx: Context) : OnTouchListener {
                 if (abs(diffX) > abs(diffY)) {
                     if (abs(diffX) > SWIPE_THRESHOLD && abs(velocityX) > SWIPE_VELOCITY_THRESHOLD) {
                         if (diffX > 0) {
-                            onSwipeRight(::turnOffPropagation)
+                            onSwipeRight()
                         } else {
-                            onSwipeLeft(::turnOffPropagation)
+                            onSwipeLeft()
                         }
-                        view.parent.requestDisallowInterceptTouchEvent(false)
                         result = false
                     }
                 } else if (abs(diffY) > SWIPE_THRESHOLD && abs(velocityY) > SWIPE_VELOCITY_THRESHOLD) {
                     if (diffY > 0) {
-                        onSwipeBottom(::turnOffPropagation)
+                        onSwipeBottom()
                     } else {
-                        onSwipeTop(::turnOffPropagation)
+                        onSwipeTop()
                     }
                     result = false
                 }
@@ -86,11 +81,11 @@ open class OnSwipeTouchListener(view: View, ctx: Context) : OnTouchListener {
     }
 
 
-    open fun onSwipeRight(noPropagate: () -> Unit) {}
+    open fun onSwipeRight() {}
 
-    open fun onSwipeLeft(noPropagate: () -> Unit) {}
+    open fun onSwipeLeft() {}
 
-    open fun onSwipeTop(noPropagate: () -> Unit) {}
+    open fun onSwipeTop() {}
 
-    open fun onSwipeBottom(noPropagate: () -> Unit) {}
+    open fun onSwipeBottom() {}
 }

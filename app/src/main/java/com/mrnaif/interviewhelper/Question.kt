@@ -12,6 +12,7 @@ data class Question(
     val answer: String,
     val company: String,
     val difficulty: String,
+    val topic: String,
     val hints: List<String>,
     val comments: List<Comment>,
     val solutions: List<String>

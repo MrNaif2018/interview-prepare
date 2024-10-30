@@ -65,7 +65,7 @@ class DiscussionFragment : Fragment() {
                 }
             ) { response, error ->
                 Handler(Looper.getMainLooper()).post {
-                    addComment(view, Comment(email = "Me", message = sendText))
+                    addComment(view, Comment(email = "Я", message = sendText))
                 }
                 Log.w("debug", response.toString())
             }

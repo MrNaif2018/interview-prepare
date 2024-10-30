@@ -20,6 +20,7 @@ class ItemsAdapter(var context: Context) :
         val text = view.findViewById<TextView>(R.id.question_name)
         val company = view.findViewById<TextView>(R.id.question_company)
         val difficulty = view.findViewById<TextView>(R.id.question_difficulty)
+        val topic = view.findViewById<TextView>(R.id.question_topic)
 
         var layout = view.findViewById<ConstraintLayout>(R.id.question_list_layout)
 
@@ -41,6 +42,7 @@ class ItemsAdapter(var context: Context) :
         holder.company.text = questions[position].company
         val difficulty = questions[position].difficulty
         holder.difficulty.text = difficulty.replaceFirstChar(Char::titlecase)
+        holder.topic.text = questions[position].topic
         val difficultyColor = when (difficulty) {
             "easy" -> Color.GREEN
             "medium" -> Color.YELLOW

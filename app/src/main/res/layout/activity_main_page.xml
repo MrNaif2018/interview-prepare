@@ -7,6 +7,29 @@
     android:layout_height="match_parent"
     tools:context=".MainPageActivity">
 
+    <ImageButton
+        android:id="@+id/profile_btn"
+        android:layout_width="44dp"
+        android:layout_height="43dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="12dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:scaleType="centerInside"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/profile" />
+
+    <ImageButton
+        android:id="@+id/help_btn"
+        android:layout_width="44dp"
+        android:layout_height="43dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="20dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        app:layout_constraintEnd_toStartOf="@+id/profile_btn"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/help" />
+
     <Button
         android:id="@+id/logout_button"
         android:layout_width="wrap_content"
@@ -20,13 +43,26 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/itemsList"
-        android:layout_width="343dp"
-        android:layout_height="563dp"
-        android:layout_marginStart="30dp"
-        android:layout_marginEnd="2dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="5dp"
         app:layout_constraintBottom_toTopOf="@+id/logout_button"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.111"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/solved_switch"
+        app:layout_constraintVertical_bias="0.503" />
+
+    <Switch
+        android:id="@+id/solved_switch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="28dp"
+        android:text="Решенные задачи"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

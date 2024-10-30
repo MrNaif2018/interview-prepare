@@ -1,6 +1,7 @@
 package com.mrnaif.interviewhelper
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -31,8 +32,12 @@ class SolutionFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        Log.w("debug", "IN1")
         val solutionText = view.findViewById<TextView>(R.id.question_solution)
+        Log.w("debug", "IN2")
         val question = viewModel.question.value ?: return
+        Log.w("debug", "IN3")
+        Log.w("debug", question.answer)
         solutionText.text = question.answer
     }
 

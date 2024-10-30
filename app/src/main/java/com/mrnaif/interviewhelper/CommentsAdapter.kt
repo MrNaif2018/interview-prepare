@@ -32,8 +32,8 @@ class CommentsAdapter(var context: Context) :
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         holder.text.text = comments[position].message
-        if (comments[position].email == getUserEmail() || comments[position].email == "Me")
-            holder.email.text = "Me"
+        if (comments[position].email == getUserEmail() || comments[position].email == "Я")
+            holder.email.text = "Я"
         else {
             holder.email.text = comments[position].email
         }

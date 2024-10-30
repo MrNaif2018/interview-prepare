@@ -6,26 +6,26 @@ import android.os.Handler
 import android.os.Looper
 import android.util.Log
 import android.widget.Button
-import androidx.activity.enableEdgeToEdge
+import android.widget.ImageButton
+import android.widget.Switch
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.gson.Gson
 
 class MainPageActivity : AppCompatActivity() {
     private val mAdapter: ItemsAdapter = ItemsAdapter(this)
+    private var mFullQuestions: List<Question> = emptyList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
+        // enableEdgeToEdge()
         setContentView(R.layout.activity_main_page)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.layout_constrained)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
-        }
+//        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.layout_constrained)) { v, insets ->
+//            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+//            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
+//            insets
+//        }
         val itemsList = findViewById<RecyclerView>(R.id.itemsList)
         itemsList.layoutManager = LinearLayoutManager(this)
         itemsList.adapter = mAdapter
@@ -53,6 +53,7 @@ class MainPageActivity : AppCompatActivity() {
                     )
                 )
             }
+            mFullQuestions = result
             Handler(Looper.getMainLooper()).post {
                 mAdapter.setItems(result)
             }
@@ -64,6 +65,26 @@ class MainPageActivity : AppCompatActivity() {
             sharedPref.edit().clear().apply();
             navigateTo(this, MainActivity::class.java)
 //            finish()
+        }
+        val profileBtn = findViewById<ImageButton>(R.id.profile_btn)
+        profileBtn.setOnClickListener {
+            navigateTo(this, ProfileActivity::class.java)
+        }
+        val helpBtn = findViewById<ImageButton>(R.id.help_btn)
+        helpBtn.setOnClickListener {
+            navigateTo(this, HelpActivity::class.java)
+        }
+        val solvedTasks = findViewById<Switch>(R.id.solved_switch)
+        solvedTasks.setOnCheckedChangeListener { _, isChecked ->
+            lateinit var questions: List<Question>
+            if (isChecked) {
+                val userEmail = getUserEmail()
+                questions =
+                    mFullQuestions.filter { question: Question -> userEmail in question.solutions }
+            } else {
+                questions = mFullQuestions
+            }
+            mAdapter.setItems(questions)
         }
     }
 }
