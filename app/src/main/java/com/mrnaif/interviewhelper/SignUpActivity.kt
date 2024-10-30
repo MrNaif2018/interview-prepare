@@ -19,6 +19,8 @@ import org.json.JSONException
 import org.json.JSONObject
 
 class SignUpActivity : AppCompatActivity() {
+    lateinit var nativeLib: NativeLib
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -28,7 +30,7 @@ class SignUpActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-
+        nativeLib = NativeLib()
         val toLogin = findViewById<TextView>(R.id.has_account)
         toLogin.setOnClickListener {
             navigateTo(this, MainActivity::class.java)
@@ -47,6 +49,9 @@ class SignUpActivity : AppCompatActivity() {
         if (email == "" || password1 == "" || password2 == "") {
             return sendToast("Пожалуйста, заполните все поля")
         }
+        if (!nativeLib.isUserValid(email, password1)) {
+            return sendToast("Проверка на C сказала, что у вас неправильный e-mail или пароль")
+        }
         if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
             return sendToast("Неправильный e-mail")
         }
@@ -57,12 +62,11 @@ class SignUpActivity : AppCompatActivity() {
             return sendToast("Пароли должны совпадать")
         }
         sendJsonPostRequest(
+            "POST",
             "${Constants.API_URL}/users", JSONObject().apply {
                 put("email", email)
                 put("password", password1)
-            }, mapOf(
-                "Content-Type" to "application/json"
-            )
+            }
         ) { response, error ->
             if (error != null) {
                 tryParseJSON(error)?.let {

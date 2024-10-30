@@ -55,12 +55,11 @@ class MainActivity : AppCompatActivity() {
             return sendToast("Неправильный e-mail")
         }
         sendJsonPostRequest(
+            "POST",
             "${Constants.API_URL}/token", JSONObject().apply {
                 put("email", email)
                 put("password", password)
-            }, mapOf(
-                "Content-Type" to "application/json"
-            )
+            }
         ) { response, error ->
             if (error != null) {
                 tryParseJSON(error)?.let {

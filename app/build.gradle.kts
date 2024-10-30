@@ -15,8 +15,14 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-    }
 
+        externalNativeBuild {
+            cmake {
+                abiFilters("armeabi-v7a", "arm64-v8a", "x86", "x86_64")
+            }
+        }
+    }
+    
     buildTypes {
         release {
             isMinifyEnabled = false
@@ -30,13 +36,26 @@ android {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
+    buildFeatures {
+        viewBinding = true
+    }
+
     kotlinOptions {
         jvmTarget = "1.8"
+    }
+
+    externalNativeBuild {
+        cmake {
+            path("CMakeLists.txt")
+        }
     }
 }
 
 dependencies {
-    implementation("com.squareup.okhttp3:okhttp:4.12.0")
+    implementation(libs.androidx.activity.ktx)
+    implementation(libs.androidx.fragment.ktx)
+    implementation(libs.okhttp)
+    implementation(libs.gson)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)

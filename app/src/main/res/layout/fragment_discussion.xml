@@ -1,0 +1,52 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:id="@+id/discuss_layout"
+        android:layout_width="210dp"
+        android:layout_height="622dp"
+        android:layout_gravity="center"
+        android:layout_marginHorizontal="30dp"
+        android:gravity="top"
+        android:orientation="vertical"
+        tools:context=".DiscussionFragment">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/question_reply_list"
+            android:layout_width="304dp"
+            android:layout_height="409dp"
+            android:orientation="vertical" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:orientation="vertical">
+
+        <EditText
+            android:id="@+id/send_msg_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="30dp"
+            android:background="@drawable/back"
+            android:hint="Ваше сообщение"
+            android:padding="15dp"
+            android:textSize="20sp" />
+
+        <Button
+            android:id="@+id/send_msg_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="120dp"
+            android:layout_marginVertical="20dp"
+            android:gravity="center"
+            android:text="Отправить" />
+    </LinearLayout>
+
+
+</FrameLayout>

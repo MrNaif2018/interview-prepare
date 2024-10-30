@@ -1,5 +1,6 @@
 package com.mrnaif.interviewhelper
 
+import android.content.Context
 import android.util.Log
 import okhttp3.Call
 import okhttp3.Callback
@@ -12,8 +13,9 @@ import org.json.JSONObject
 import java.io.IOException
 
 fun sendJsonPostRequest(
+    method: String,
     url: String,
-    jsonBody: JSONObject,
+    jsonBody: JSONObject = JSONObject(),
     headers: Map<String, String> = emptyMap(),
     callback: (response: JSONObject?, error: String?) -> Unit
 ) {
@@ -25,10 +27,22 @@ fun sendJsonPostRequest(
 
 
     // Build request
-    val requestBuilder = Request.Builder()
+    var requestBuilder = Request.Builder()
         .url(url)
-        .post(requestBody)
-
+    if (method == "GET") {
+        requestBuilder = requestBuilder.get()
+    } else {
+        requestBuilder = requestBuilder.method(method, requestBody)
+    }
+    val sharedPref =
+        InterviewHelper.applicationContext()
+            .getSharedPreferences(Constants.SETTINGS_KEY, Context.MODE_PRIVATE) ?: return
+    val token = sharedPref.getString("token", null)
+    if (token != null) {
+        Log.w("debug", token)
+        requestBuilder.addHeader("Authorization", "Bearer $token")
+    }
+    requestBuilder.addHeader("Content-Type", "application/json")
     // Add headers if provided
     for ((key, value) in headers) {
         requestBuilder.addHeader(key, value)
